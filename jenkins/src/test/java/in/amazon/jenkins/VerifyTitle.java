@@ -2,6 +2,7 @@ package in.amazon.jenkins;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -13,7 +14,16 @@ public class VerifyTitle {
 	
 	@BeforeTest
 	public void lunchapp() {
-		driver = new ChromeDriver();
+		String os = System.getProperty("os.name").toLowerCase();
+		if (os.contains("win")){			
+			driver = new ChromeDriver();
+		}
+		    
+		else if (os.contains("nix") || os.contains("aix") || os.contains("nux")){
+			ChromeOptions options = new ChromeOptions();
+			options.addArguments("--headless");			
+			driver = new ChromeDriver(options);
+		}
 		driver.get("https://www.facebook.com/");
 		
 	}
